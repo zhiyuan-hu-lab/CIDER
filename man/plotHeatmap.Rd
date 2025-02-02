@@ -2,23 +2,23 @@
 % Please edit documentation in R/plotDistMat.R
 \name{plotHeatmap}
 \alias{plotHeatmap}
-\title{Plot Heatmap for the IDER-based similarity matrix}
+\title{Plot Heatmap for the IDER-Based Similarity Matrix}
 \usage{
 plotHeatmap(seu, ider, batch.var = "Batch")
 }
 \arguments{
-\item{seu}{An Seurat object.}
+\item{seu}{A Seurat object.}
 
-\item{ider}{Output of function `getIDEr`.}
+\item{ider}{The output list from the \code{getIDEr} function.}
 
-\item{batch.var}{Character. Metadata colname containing batch information.
-(Default: Batch)}
+\item{batch.var}{Character string specifying the metadata column that contains batch information. Default is "Batch".}
 }
 \value{
-A heatmap shows the similarity between shared groups in two batches
+A heatmap displaying the similarity between shared groups across batches.
 }
 \description{
-Plot Heatmap for the IDER-based similarity matrix
+This function generates a heatmap that visualises the similarity between shared 
+groups across batches, as computed by \code{getIDEr}.
 }
 \examples{
 \dontrun{

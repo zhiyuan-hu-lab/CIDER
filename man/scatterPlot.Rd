@@ -15,13 +15,13 @@ scatterPlot(
 )
 }
 \arguments{
-\item{seu}{Seurat S4 object after the step of `getIDER`. Required.}
+\item{seu}{Seurat S4 object after the step of \code{getIDER}. Required.}
 
 \item{reduction}{Character. The dimension reduction used to plot. Common
-options: "pca", "tsne", "umap". The availability of dimension reduction
-can be checked by `Reductions(seu)`.}
+options: \code{"pca"}, \code{"tsne"}, \code{"umap"}. The availability of dimension reduction
+can be checked by \code{Reductions(seu)}.}
 
-\item{colour.by}{Character. One of the column names of `seu@meta.data`.
+\item{colour.by}{Character. One of the column names of \code{seu@meta.data}.
 Can be either discreet or continuous variables.}
 
 \item{colvec}{A vector of Hex colour codes. If no value is given (default),
@@ -30,12 +30,12 @@ a vector of 74 colours will be used.}
 \item{title}{Character. Title of the figure.}
 
 \item{sort.by.numbers}{Boolean. Whether to sort the groups by the number
-of cells.(Default: True)}
+of cells.(Default: \code{True})}
 
-\item{viridis_option}{viridis_option. (Default: B)}
+\item{viridis_option}{viridis_option. (Default: \code{B})}
 }
 \value{
-a scatter plot
+A ggplot2 scatter plot
 }
 \description{
 Scatterplot of a Seurat object based on dimension reduction.

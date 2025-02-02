@@ -5,19 +5,23 @@
 \alias{dendritic}
 \title{Dendritic Data}
 \format{
-A Seurat Object
+A Seurat object.
 }
 \source{
-The data were downloaded from https://hub.docker.com/r/jinmiaochenlab/batch-effect-removal-benchmarking
-ref 1: Tran HTN, Ang KS, Chevrier M, Lee NYS, Goh M, Chen J. A benchmark of batch-effect correction methods for single-cell RNA sequencing data. Genome Biol. 2020;21:1–32.
-ref 2: Villani A-C, Satija R, Reynolds G, Sarkizova S, Shekhar K, Fletcher J, et al. Single-cell RNA-seq reveals new types of human blood dendritic cells, monocytes, and progenitors. Science. 2017;356(6335).
+The data were downloaded from \url{https://hub.docker.com/r/jinmiaochenlab/batch-effect-removal-benchmarking}.  
+Reference 1: Tran HTN, Ang KS, Chevrier M, Lee NYS, Goh M, Chen J. A benchmark of batch-effect correction methods for single-cell RNA sequencing data. Genome Biol. 2020;21:1–32.  
+Reference 2: Villani A-C, Satija R, Reynolds G, Sarkizova S, Shekhar K, Fletcher J, et al. Single-cell RNA-seq reveals new types of human blood dendritic cells, monocytes, and progenitors. Science. 2017;356(6335).
 }
 \usage{
 data(dendritic)
 }
 \description{
-The data contained four cell subtypes (CD141, CD1C, DoubleNeg, and pDC) from two batches.
-The raw count matrix and the sample information were also downloaded from the curated set.
-Cells with less than 500 genes detected were removed.
+This dataset comprises data for four dendritic cell subtypes (CD141, 
+CD1C, DoubleNeg, and pDC) from two batches. The raw count matrix and sample 
+information were downloaded from a curated set, and cells with fewer than 
+500 detected genes have been removed.
+}
+\details{
+A Seurat object containing dendritic cell data.
 }
 \keyword{datasets}

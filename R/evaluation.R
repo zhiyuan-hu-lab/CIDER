@@ -1,24 +1,22 @@
-#' @title Initial clustering for evaluating integration
+#' Initial Clustering for Evaluating Integration
 #'
-#' @description This function applies HDBSCAN, a density-based
-#' clustering method, on the corrected dimension reduction.
+#' This function applies HDBSCAN, a density-based clustering algorithm, to the corrected dimension 
+#' reduction of a Seurat object.
 #'
-#' @param seu a Seurat object containing integrated or batch corrected
-#'  PCA.
-#' @param batch.var Character. Metadata colname containing batch information.
-#'  (Default: Batch)
-#' @param reduction Character. Name of the dimension reduction after
-#' integration or batch correction. (Default: PCA)
-#' @param dims Numeric vector. Dimensions used for initial clustering.
-#' (Default: 1:15)
-#' @param minPts Interger. Minimum size of clusters. Will be passed
-#' to the `hdbscan` function. (Default: 25)
+#' @param seu A Seurat object containing integrated or batch-corrected data (e.g. PCA results).
+#' @param batch.var Character string specifying the metadata column that contains batch information. 
+#' Default is "Batch".
+#' @param reduction Character string specifying the name of the dimension reduction to use (e.g. "PCA"). 
+#' Default is "PCA".
+#' @param dims Numeric vector indicating the dimensions to be used for initial clustering. Default is 1:15.
+#' @param minPts Integer specifying the minimum number of points required to form a cluster. 
+#' This value is passed to the \code{hdbscan} function. Default is 25.
 #'
-#' @return A Seurat object having two additional columns in its
-#' meta.data: dbscan_cluster and initial_cluster.
+#' @return A Seurat object with two additional columns in its \code{meta.data}: 
+#' \code{dbscan_cluster} and \code{initial_cluster}.
 #'
-#' @seealso Usage of this function should be followed by
-#' \code{\link{getIDEr}} and \code{\link{estimateProb}}.
+#' @seealso \code{\link{getIDEr}}, \code{\link{estimateProb}}
+#'
 #' @export
 #'
 #' @import Seurat
@@ -42,22 +40,31 @@ hdbscan.seurat <- function(seu, batch.var = "Batch", reduction = "pca",
   return(seu)
 }
 
-#' @title Estimate the empirical probability of whether two set of cells
-#' from distinct batches belong to the same population
-#' @param seu A Seurat object
-#' @param ider The output list of function `getIDEr`.
-#' @param batch.var Character. Metadata colname containing batch information.
-#'  (Default: Batch)
-#' @param n_size Number of cells per group used to compute the similarity. Default: 40
-#' @param n.perm Numeric. Time of permutations.
-#' @param verbose Boolean. Print out progress or not. (Default: FALSEW)
-#' @return A Seurat object with IDER-based similarity and empirical
-#' probability of rejection
+#' Estimate the Empirical Probability of Whether Two Set of Cells
+#' from Distinct Batches Belong to the Same Population
+#'
+#' This function computes the empirical probability that two sets of cells from 
+#' distinct batches belong to the same population, based on the output of \code{getIDEr}.
+#'
+#' @param seu A Seurat object.
+#' @param ider A list returned by the \code{getIDEr} function.
+#' @param batch.var Character string specifying the metadata column that contains 
+#' batch information. Default is "Batch".
+#' @param n_size Numeric value indicating the number of cells per group used to 
+#' compute the similarity. Default is 40.
+#' @param n.perm Numeric value specifying the number of permutations to perform.
+#' @param verbose Logical. If \code{TRUE}, progress messages are printed. 
+#' Default is \code{FALSE}.
+#'
+#' @return A Seurat object with additional columns for the IDER-based similarity 
+#' and the empirical probability of rejection.
+#'
+#' @seealso \code{\link{hdbscan.seurat}}, \code{\link{getIDEr}}
+#'
+#' @export
+#'
 #' @import limma edgeR foreach utils doParallel
 #' @importFrom kernlab specc
-#' @seealso Usage of this function should be after \code{\link{hdbscan.seurat}}
-#' and \code{\link{getIDEr}}
-#' @export
 estimateProb <- function(seu, ider, batch.var = "Batch", n_size = 40,
                           #seeds = c(12345, 89465, 10385, 10385, 17396),
                           n.perm = 5, verbose = FALSE){

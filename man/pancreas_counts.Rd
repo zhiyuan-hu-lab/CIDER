@@ -5,16 +5,21 @@
 \alias{pancreas_counts}
 \title{Pancreas Count Matrix}
 \format{
-sparse Matrix of class "dgCMatrix" with 12474 rows (genes) and 10127 columns (cells).
+A sparse matrix of class \code{"dgCMatrix"} with 12474 rows (genes) and 10127 columns (cells).
 }
 \source{
-The count matrix and sample information were downloaded from NCBI GEO accession GSE84133. 
-ref: Baron M, Veres A, Wolock SL, Faust AL, Gaujoux R, Vetere A, et al. A single-cell transcriptomic map of the human and mouse pancreas reveals inter- and intra-cell population structure. Cell Syst. 2016;3:346–360.e4.
+The count matrix and sample information were downloaded from NCBI GEO accession GSE84133.  
+Reference: Baron M, Veres A, Wolock SL, Faust AL, Gaujoux R, Vetere 
+A, et al. A single-cell transcriptomic map of the human and mouse pancreas reveals inter- 
+and intra-cell population structure. Cell Syst. 2016;3:346–360.e4.
 }
 \usage{
 data(pancreas_counts)
 }
 \description{
-Single-cell RNA-seq count matrix for human and mouse cross-species pancreatic data
+This dataset comprises a single-cell RNA-seq count matrix for pancreatic data from human and mouse samples.
+}
+\details{
+A sparse count matrix for cross-species pancreatic data.
 }
 \keyword{datasets}

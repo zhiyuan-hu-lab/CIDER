@@ -1,12 +1,18 @@
-#' @title Plot Similarity Matrix with pheatmap
+#' Plot Similarity Matrix with pheatmap
 #'
-#' @param dist.list Output of function `getDistMat()`. Required.
-#' @param use Default: "coef". No other option currently that can be used.
-#' @return A pheatmap showing the similarity matrix
+#' This function creates a heatmap of the similarity matrix computed by \code{getDistMat()}.
+#'
+#' @param dist.list A list representing the similarity matrix output by \code{getDistMat()}. Required.
+#' @param use Character string specifying the similarity measure to use. Default is "coef". 
+#' No other option is currently available.
+#'
+#' @return A \code{pheatmap} object displaying the similarity matrix.
+#'
+#' @seealso \code{\link{getDistMat}}
+#'
 #' @export
 #'
 #' @import pheatmap
-#' @seealso \code{\link{getDistMat}}
 plotDistMat <- function(dist.list, use = "coef") {
   if (use == "coef") {
     dist_coef <- dist.list[[1]]
@@ -25,17 +31,23 @@ plotDistMat <- function(dist.list, use = "coef") {
   return(hm)
 }
 
-#' @title Plot Heatmap for the IDER-based similarity matrix
+#' Plot Heatmap for the IDER-Based Similarity Matrix
 #'
-#' @param seu An Seurat object.
-#' @param ider Output of function `getIDEr`.
-#' @param batch.var Character. Metadata colname containing batch information.
-#'  (Default: Batch)
-#' @return A heatmap shows the similarity between shared groups in two batches
+#' This function generates a heatmap that visualises the similarity between shared 
+#' groups across batches, as computed by \code{getIDEr}.
+#'
+#' @param seu A Seurat object.
+#' @param ider The output list from the \code{getIDEr} function.
+#' @param batch.var Character string specifying the metadata column that contains batch information. Default is "Batch".
+#'
+#' @return A heatmap displaying the similarity between shared groups across batches.
 #'
 #' @seealso \code{\link{getIDEr}}
-#' @import pheatmap viridis
+#'
 #' @export
+#'
+#' @import pheatmap viridis
+#'
 #' @examples
 #' \dontrun{
 #'   plotHeatmap(seu, ider)

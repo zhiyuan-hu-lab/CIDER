@@ -17,37 +17,40 @@ mergeInitialClusters(
 )
 }
 \arguments{
-\item{seu_list}{A list containing Seurat objects. Required.}
+\item{seu_list}{A list of Seurat objects containing the single-cell data. This parameter is required.}
 
-\item{dist_list}{A list containing similarity matrices. The output of
-`getDistMat ()`}
+\item{dist_list}{A list of similarity matrices as returned by \code{getDistMat()}. The order of matrices
+should correspond to that of the Seurat objects in \code{seu_list}.}
 
-\item{use}{Default: "coef". No other option available currently.}
+\item{use}{A string specifying the similarity measure to use. Currently, only "coef" is supported. Default is "coef".}
 
-\item{method}{method = "hc"}
+\item{method}{A string specifying the clustering method to employ. The default is "hc" for hierarchical clustering.}
 
-\item{hc.method}{Passed to the `method` parameter of `hclust()`. Default:
-"average"}
+\item{hc.method}{A string passed to the \code{method} parameter of \code{hclust()}. Default is "average".}
 
-\item{cutree.by}{Cut trees by height ("h", default) or number of
-clusters ("k")}
+\item{cutree.by}{A character indicating whether to cut the dendrogram by height ("h", default) or by
+a set number of clusters ("k").}
 
-\item{cutree.h}{Height used to cut the tree. Default: 0.6.}
+\item{cutree.h}{A numeric value defining the height at which to cut the tree if \code{cutree.by = "h"}. Default is 0.6.}
 
-\item{cutree.k}{Number of clusters used to cut the tree. Default: 3.}
+\item{cutree.k}{A numeric value specifying the number of clusters to generate if \code{cutree.by = "k"}. Default is 3.}
 
-\item{batch.var}{Character. Metadata colname containing batch information.
-(Default: Batch)}
+\item{batch.var}{A character string representing the metadata column name that contains batch information.
+Default is "Batch".}
 }
 \value{
-a list of Seurat objects containing the updated initial clustering
-information in `seu_list[[seu_itor]]$inicluster`. The original initial
-cluster information is stored in `seu_list[[seu_itor]]$inicluster_tmp`.
+A list of Seurat objects in which the initial clustering has been updated. The new cluster
+assignments are stored in the \code{inicluster} field of each Seurat object, whilst the original
+assignments are preserved in the \code{inicluster_tmp} field.
 }
 \description{
-Merge Initial Clusters
+Merge initial clusters based on a provided similarity matrix and hierarchical clustering.
+}
+\details{
+This function accepts a list of Seurat objects and a corresponding list of similarity matrices,
+and then merges the initial clusters using a hierarchical clustering approach. The updated cluster
+assignments are stored within each Seurat object.
 }
 \seealso{
-\code{\link{hclust}}  \code{\link{cutree}}
-\code{\link{gatherInitialClusters}} \code{\link{initialClustering}}
+\code{\link{gatherInitialClusters}}, \code{\link{initialClustering}}
 }

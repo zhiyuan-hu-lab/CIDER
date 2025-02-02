@@ -19,38 +19,34 @@ getDistMat(
 \arguments{
 \item{seu_list}{A list containing Seurat objects. Required.}
 
-\item{verbose}{Print the message and progress bar (default: TRUE)}
+\item{verbose}{Logical. If \code{TRUE}, progress messages and a progress bar are displayed. Default is \code{TRUE}.}
 
-\item{tmp.initial.clusters}{One of the colnames from `Seurat@meta.data`. Used
-as the group. Default: "seurat_clusters"}
+\item{tmp.initial.clusters}{Character string specifying one of the column names from \code{Seurat@meta.data} 
+that denotes groups, e.g., initial clusters. 
+Default is "seurat_clusters".}
 
-\item{method}{Methods for DE analysis. Options: "voom" or "trend" (default)}
+\item{method}{Character string specifying the method for differential expression analysis.
+Options are "voom" or "trend" (default is "trend").}
 
-\item{batch.var}{Character. Metadata colname containing batch information.
-(Default: Batch)}
+\item{batch.var}{Character string specifying the metadata column containing batch information. Default is "Batch".}
 
-\item{additional.variate}{additional variate to include into the linear
-model to regress out}
+\item{additional.variate}{Character vector of additional variates to include in the linear model for regression.}
 
-\item{downsampling.size}{Number of cells used per group. Default: 35}
+\item{downsampling.size}{Numeric value indicating the number of cells to use per group. Default is 35.}
 
-\item{downsampling.include}{Whether to include the group of size smaller than
-`downsampling.size`. Default: TRUE}
+\item{downsampling.include}{Logical. Whether to include groups with fewer cells than 
+\code{downsampling.size}. Default is \code{TRUE}.}
 
-\item{downsampling.replace}{Whether to use `replace` in sampling for group
-of size smaller than `downsampling.size` if they are kept. Default: TRUE}
+\item{downsampling.replace}{Logical. Whether to sample with replacement for groups 
+smaller than \code{downsampling.size}. Default is \code{TRUE}.}
 }
 \value{
-A list of similarity matrices
+A list of similarity matrices.
 }
 \description{
-Compute the IDER-based similarity matrix for a list of Seurat
-objects. This function does not regress out batch effects and is designed to
-be used at the initial clustering step.
+Compute the IDER-based similarity matrix for a list of Seurat objects. This 
+function does not regress out batch effects and is designed for use during the initial clustering step.
 }
 \seealso{
 \code{\link{calculateDistMatOneModel}}
-}
-\author{
-Zhiyuan Hu
 }

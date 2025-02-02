@@ -1,29 +1,33 @@
-#' @title Merge Initial Clusters
+#' Merge Initial Clusters
 #'
-#' @param seu_list A list containing Seurat objects. Required.
-#' @param dist_list A list containing similarity matrices. The output of
-#' `getDistMat ()`
-#' @param use Default: "coef". No other option available currently.
-#' @param method method = "hc"
-#' @param hc.method Passed to the `method` parameter of `hclust()`. Default:
-#' "average"
-#' @param cutree.by Cut trees by height ("h", default) or number of
-#' clusters ("k")
-#' @param cutree.h Height used to cut the tree. Default: 0.6.
-#' @param cutree.k Number of clusters used to cut the tree. Default: 3.
-#' @param batch.var Character. Metadata colname containing batch information.
-#'  (Default: Batch)
-#' @return a list of Seurat objects containing the updated initial clustering
-#' information in `seu_list[[seu_itor]]$inicluster`. The original initial
-#' cluster information is stored in `seu_list[[seu_itor]]$inicluster_tmp`.
-#' @seealso \code{\link{hclust}}  \code{\link{cutree}}
-#' \code{\link{gatherInitialClusters}} \code{\link{initialClustering}}
-#' @export
+#' Merge initial clusters based on a provided similarity matrix and hierarchical clustering.
+#'
+#' This function accepts a list of Seurat objects and a corresponding list of similarity matrices,
+#' and then merges the initial clusters using a hierarchical clustering approach. The updated cluster
+#' assignments are stored within each Seurat object.
+#'
+#' @param seu_list A list of Seurat objects containing the single-cell data. This parameter is required.
+#' @param dist_list A list of similarity matrices as returned by \code{getDistMat()}. The order of matrices
+#' should correspond to that of the Seurat objects in \code{seu_list}.
+#' @param use A string specifying the similarity measure to use. Currently, only "coef" is supported. Default is "coef".
+#' @param method A string specifying the clustering method to employ. The default is "hc" for hierarchical clustering.
+#' @param hc.method A string passed to the \code{method} parameter of \code{hclust()}. Default is "average".
+#' @param cutree.by A character indicating whether to cut the dendrogram by height ("h", default) or by
+#' a set number of clusters ("k").
+#' @param cutree.h A numeric value defining the height at which to cut the tree if \code{cutree.by = "h"}. Default is 0.6.
+#' @param cutree.k A numeric value specifying the number of clusters to generate if \code{cutree.by = "k"}. Default is 3.
+#' @param batch.var A character string representing the metadata column name that contains batch information.
+#' Default is "Batch".
+#'
+#' @return A list of Seurat objects in which the initial clustering has been updated. The new cluster
+#' assignments are stored in the \code{inicluster} field of each Seurat object, whilst the original
+#' assignments are preserved in the \code{inicluster_tmp} field.
+#'
+#' @seealso \code{\link{gatherInitialClusters}}, \code{\link{initialClustering}}
 #'
 #' @importFrom stats cutree hclust as.dist
 #' @import Seurat
-#'
-#'
+#' @export
 mergeInitialClusters <- function(seu_list, dist_list, use = "coef",
                                  method = "hc",
                                  hc.method = "average", cutree.by = "h",
@@ -59,17 +63,20 @@ mergeInitialClusters <- function(seu_list, dist_list, use = "coef",
   return(seu_list)
 }
 
-#' @title Gather initial cluster names
-#' @describeIn Merge initial clustering results from a Seurat object list to one
-#' Seurat object. Follows the function `mergeInitialClusters`.
-#' @param seu_list  A list containing Seurat objects. Required.
-#' @param seu A Seurat object
+#' Gather Initial Cluster Names
 #'
-#' @return A Seurat object containing initial clustering  results in
-#' `seu$initial_cluster`.
+#' Merge initial clustering results from a list of Seurat objects into a single Seurat object.
+#'
+#' @param seu_list A list containing Seurat objects with initial clustering results. Required.
+#' @param seu A Seurat object to which the merged initial cluster information will be added.
+#'
+#' @return A Seurat object containing the initial clustering results in the \code{initial_cluster} column of its \code{meta.data}.
+#'
 #' @seealso \code{\link{mergeInitialClusters}}
-#' @import Seurat
+#'
 #' @export
+#'
+#' @import Seurat
 gatherInitialClusters <- function(seu_list, seu) {
   tmp <- unlist(vapply(seu_list, function(x) {
     return(x$inicluster_tmp)

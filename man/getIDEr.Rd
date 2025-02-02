@@ -2,7 +2,7 @@
 % Please edit documentation in R/getIDER.R
 \name{getIDEr}
 \alias{getIDEr}
-\title{Compute IDER-based similarity}
+\title{Compute IDER-Based Similarity}
 \usage{
 getIDEr(
   seu,
@@ -17,43 +17,36 @@ getIDEr(
 )
 }
 \arguments{
-\item{seu}{Seurat S4 object with the column of `initial_cluster` in
-its meta.data. Required.}
+\item{seu}{A Seurat S4 object that includes an \code{initial_cluster} column in its \code{meta.data}. Required.}
 
-\item{group.by.var}{initial clusters (batch-specific groups) variable.
-Needs to be one of the `colnames(seu@meta.data)`. Default: "initial_cluster".}
+\item{group.by.var}{Character string specifying the column in \code{seu@meta.data} 
+that defines initial clusters (batch-specific groups). Default is "initial_cluster".}
 
-\item{batch.by.var}{Batch variable. Needs to be one of the
-`colnames(seu@meta.data)`. Default: "Batch".}
+\item{batch.by.var}{Character string specifying the metadata column that indicates batch information. Default is "Batch".}
 
-\item{verbose}{Boolean. Print the message and progress bar. (Default: TRUE)}
+\item{verbose}{Logical. If \code{TRUE}, progress messages and a progress bar are displayed. Default is \code{TRUE}.}
 
-\item{use.parallel}{Boolean. Use parallel computation, which requires
-doParallel; no progress bar will be printed out. Run time will be 1/n.cores
- compared to the situation when no parallelisation is used. (Default: FALSE)}
+\item{use.parallel}{Logical. If \code{TRUE}, parallel computation is used
+(requires \code{doParallel}); in this case, no progress bar will be shown. Default is \code{FALSE}.}
 
-\item{n.cores}{Numeric. Number of cores used for parallel computing
-(default: 1).}
+\item{n.cores}{Numeric. The number of cores to use for parallel computing. Default is 1.}
 
-\item{downsampling.size}{Numeric. The number of cells representing each
-group. (Default: 40)}
+\item{downsampling.size}{Numeric. The number of cells representing each group. Default is 40.}
 
-\item{downsampling.include}{Boolean. Using `include = TRUE` to include
-the group smaller than required size. (Default: FALSE)}
+\item{downsampling.include}{Logical. Whether to include groups with fewer 
+cells than \code{downsampling.size}. Default is \code{FALSE}.}
 
-\item{downsampling.replace}{Boolean. Using `replace = TRUE` if the group
-is smaller than required size and some cells will be repeatedly used.
-(Default: FALSE)}
+\item{downsampling.replace}{Logical. Whether to sample with replacement if a 
+group is smaller than \code{downsampling.size}. Default is \code{FALSE}.}
 }
 \value{
-A list of four objects: a similarity matrix, a numeric vector
-recording cells used and the data frame of combinations included.
+A list of objects: a similarity matrix, a numeric vector recording 
+the cells used, and a data frame of the group combinations included.
 }
 \description{
-Calculate the similarity matrix based on the metrics of
-Inter-group Differential ExpRession (IDER) with the selected batch effects
-regressed out.
+Calculate the similarity matrix based on Inter-group Differential Expression 
+(IDER) metrics with the selected batch effects regressed out.
 }
 \seealso{
-\code{\link{plotNetwork}} \code{\link{finalClustering}}
+\code{\link{plotNetwork}}, \code{\link{finalClustering}}
 }

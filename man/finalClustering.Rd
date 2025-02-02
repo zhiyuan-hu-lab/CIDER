@@ -2,7 +2,7 @@
 % Please edit documentation in R/finalClustering.R
 \name{finalClustering}
 \alias{finalClustering}
-\title{Final clustering step for meta-clustering}
+\title{Final Clustering Step for Meta-Clustering}
 \usage{
 finalClustering(
   seu,
@@ -14,30 +14,29 @@ finalClustering(
 )
 }
 \arguments{
-\item{seu}{Seurat object after the step of `getIDEr`. Required.}
+\item{seu}{A Seurat object that has undergone the \code{getIDEr} step. Required.}
 
-\item{dist}{A list. Output of `getIDEr`. Required.}
+\item{dist}{A list output from the \code{getIDEr} function. Required.}
 
-\item{cutree.by}{Character. Cut the tree by which parameter, height ("h") or
-number of clusters ("k"). (Default: h)}
+\item{cutree.by}{Character string specifying whether to cut the dendrogram by 
+height ("h") or by a fixed number of clusters ("k"). Default is "h".}
 
-\item{cutree.h}{Numeric between 0 and 1. The height used to cut the tree.
-Ignored if `cutree.by = 'k`. (Default: 0.45)}
+\item{cutree.h}{Numeric value between 0 and 1 indicating the height at which 
+to cut the dendrogram. This parameter is ignored if \code{cutree.by = "k"}. Default is 0.45.}
 
-\item{cutree.k}{Numeric/integer. Used to cut the tree. Ignored if
-`cutree.by = 'h`. (Default: 3)}
+\item{cutree.k}{Numeric value specifying the number of clusters to generate 
+if \code{cutree.by = "k"}. This parameter is ignored if \code{cutree.by = "h"}. Default is 3.}
 
-\item{hc.method}{Character. Used to choose the hierarchical
-clustering method.}
+\item{hc.method}{Character string specifying the method to be used in 
+hierarchical clustering (passed to \code{hclust}).}
 }
 \value{
-Seurat object with final clustering results in `CIDER_clusters`
-of meta.data.
+A Seurat object with the final clustering results stored in 
+the \code{CIDER_clusters} column of its \code{meta.data}.
 }
 \description{
-Merge initial clusters into final clusters based on the
-matrix of IDEr.
+This function merges initial clusters into final clusters based on the IDEr similarity matrix.
 }
 \seealso{
-\code{\link{getIDEr}}.
+\code{\link{getIDEr}}
 }

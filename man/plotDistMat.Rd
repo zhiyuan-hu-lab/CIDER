@@ -7,15 +7,16 @@
 plotDistMat(dist.list, use = "coef")
 }
 \arguments{
-\item{dist.list}{Output of function `getDistMat()`. Required.}
+\item{dist.list}{A list representing the similarity matrix output by \code{getDistMat()}. Required.}
 
-\item{use}{Default: "coef". No other option currently that can be used.}
+\item{use}{Character string specifying the similarity measure to use. Default is "coef". 
+No other option is currently available.}
 }
 \value{
-A pheatmap showing the similarity matrix
+A \code{pheatmap} object displaying the similarity matrix.
 }
 \description{
-Plot Similarity Matrix with pheatmap
+This function creates a heatmap of the similarity matrix computed by \code{getDistMat()}.
 }
 \seealso{
 \code{\link{getDistMat}}

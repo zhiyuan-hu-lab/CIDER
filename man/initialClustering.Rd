@@ -2,7 +2,7 @@
 % Please edit documentation in R/initialClustering.R
 \name{initialClustering}
 \alias{initialClustering}
-\title{Initial clustering}
+\title{Initial Clustering}
 \usage{
 initialClustering(
   seu,
@@ -17,36 +17,32 @@ initialClustering(
 )
 }
 \arguments{
-\item{seu}{Seurat object. Required.}
+\item{seu}{A Seurat object. Required.}
 
-\item{batch.var}{Character. One of the column names of `seu@meta.data`. It
-is used to partition the Seurat object into smaller ones. Default: "Batch"}
+\item{batch.var}{Character string specifying one of the column names in \code{seu@meta.data} 
+used to partition the object into subsets. Default is "Batch".}
 
-\item{cut.height}{Numeric. Height used to cut hirerchical trees. Default:
-0.4}
+\item{cut.height}{Numeric value specifying the height at which to cut hierarchical trees. Default is 0.4.}
 
-\item{nfeatures}{Number of high variance genes used. Default: 2000}
+\item{nfeatures}{Numeric value indicating the number of high-variance genes to use. Default is 2000.}
 
-\item{additional.vars.to.regress}{Additional variables to regress out. Needs
-to among column names of `seu@meta.data`. Default: `NULL`}
+\item{additional.vars.to.regress}{Character vector of additional variable names from \code{seu@meta.data} to regress out. 
+Optional. Default is \code{NULL}.}
 
-\item{dims}{Number of dimension used for clustering. Passed to Seurat.
-Default: `1:14`}
+\item{dims}{Numeric vector specifying the dimensions to be used for clustering (passed to Seurat). Default is 1:14.}
 
-\item{resolution}{Resolution for clustering. Passed to Seurat. Default: 0.6}
+\item{resolution}{Numeric value for clustering resolution (passed to Seurat). Default is 0.6.}
 
-\item{downsampling.size}{Numeric. The number of cells representing each
-group. (Default: 40)}
+\item{downsampling.size}{Numeric value indicating the number of cells representing each group. Default is 40.}
 
-\item{verbose}{Print the progress bar or not. Default: FALSE}
+\item{verbose}{Logical. If \code{TRUE}, a progress bar is displayed. Default is \code{FALSE}.}
 }
 \value{
-Seurat S4 object with initial cluster information in
-`initial_cluster` of meta.data.
+A Seurat S4 object with initial cluster assignments stored in the \code{initial_cluster} column of its \code{meta.data}.
 }
 \description{
-Perform batch-specific initial clustering.
+Perform batch-specific initial clustering on a Seurat object.
 }
 \seealso{
-\code{\link{getIDEr}} \code{\link{finalClustering}}
+\code{\link{getIDEr}}, \code{\link{finalClustering}}
 }

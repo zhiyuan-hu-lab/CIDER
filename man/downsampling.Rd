@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{downsampling}
 \alias{downsampling}
-\title{Downsampling cells}
+\title{Downsampling Cells}
 \usage{
 downsampling(
   metadata,
@@ -14,27 +14,32 @@ downsampling(
 )
 }
 \arguments{
-\item{metadata}{Data frame. It includes at least 2 columns, label and batch.
-Each row corresponds to one cell. Required.}
+\item{metadata}{A data frame containing at least two columns: one for group labels
+and one for batch information. Each row corresponds to a single cell. Required.}
 
-\item{n.size}{Numeric. The number of cells used in each group. (Default: 35)}
+\item{n.size}{Numeric value specifying the number of cells to use in each group.
+Default is \code{35}.}
 
-\item{seed}{Numeric. Seed used to sample. (Default: 12345)}
+\item{seed}{Numeric value to set the random seed for sampling. Default is \code{12345}.}
 
-\item{include}{Boolean. Using `include = TRUE` to include the group smaller
-than required size. (Default: FALSE)}
+\item{include}{Logical value indicating whether to include groups that have fewer cells than \code{n.size}.
+Default is \code{FALSE}.}
 
-\item{replace}{Boolean. Using `replace = TRUE` if the group is smaller than
-required size and some cells will be repeatedly used. (Default: FALSE)}
+\item{replace}{Logical value specifying whether to sample with replacement if a group
+is smaller than \code{n.size}. Default is \code{FALSE}.}
 
-\item{lower.cutoff}{Numeric. The minimum size of groups to keep.
-(Default: 3)}
+\item{lower.cutoff}{Numeric value indicating the minimum group size required for inclusion.
+Default is \code{3}.}
 }
 \value{
-A numeric list of which cells will be kept for downstream
-computation.
+A list of numeric indices (or cell names) for cells to be kept for downstream computation.
 }
 \description{
-Downsampling cells from each group for IDER-based similarity
-calculation.
+Downsamples cells from each group for IDER-based similarity calculation.
+}
+\examples{
+\dontrun{
+  # 'meta' is a data frame with columns 'label' and 'batch'
+  keep_cells <- downsamplingCells(meta, n.size = 35, seed = 12345)
+}
 }

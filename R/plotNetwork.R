@@ -1,26 +1,26 @@
-#' @title Plot Network Graph
-#' @description Network visualisation for an IDER-based similarity matrix. 
+#' Plot Network Graph
+#' 
+#' Visualise the network based on an IDER-based similarity matrix. 
 #' The vertexes are initial clusters, and
 #' the edge width denotes the similarity between two initial clusters.
 #'
-#' @param seu Seurat S4 object after the step of `getIDER`, containing 
-#' `initial_cluster` and `Batch` in its meta.data. Required.
+#' @param seu Seurat S4 object after the step of \code{getIDER}, containing 
+#' \code{initial_cluster} and \code{Batch} in its meta.data. Required.
 #' @param ider A list. Output of `getIDER`. Required.
 #' @param batch.var Character. Metadata colname containing batch information.
-#'  (Default: Batch)
+#'  (Default: \code{Batch})
 #' @param colour.by Character. It should be one of the colnames of Seurat 
 #'  object meta.data.It is used to colour the vertex of the network graph. 
-#'  (Default: NULL)
+#'  (Default: \code{NULL})
 #' @param weight.factor Numerical. Adjust the thickness of the edges. 
 #' (Default: 6.5)
 #' @param col.vector A vector of Hex colour codes. If no value is given 
-#' (default), a vector 
-#' of 74 colours will be used.
+#' (default), a vector of 74 colours will be used.
 #' @param vertex.size Numerical. Adjsut the size of vertexes. (Default: 1)
 #'
 #' @return An igraph object
 #'
-#' @seealso \code{\link{getIDEr}} \code{\link[igraph]{graph_from_data_frame}}
+#' @seealso \code{\link{getIDEr}}
 #'
 #' @importFrom igraph graph_from_data_frame
 #' @importFrom igraph E

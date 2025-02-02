@@ -1,23 +1,28 @@
-#' @title Downsampling cells
+#' Downsampling Cells
 #'
-#' @description Downsampling cells from each group for IDER-based similarity
-#' calculation.
+#' Downsamples cells from each group for IDER-based similarity calculation.
 #'
-#' @param metadata Data frame. It includes at least 2 columns, label and batch.
-#' Each row corresponds to one cell. Required.
-#' @param n.size Numeric. The number of cells used in each group. (Default: 35)
-#' @param seed Numeric. Seed used to sample. (Default: 12345)
-#' @param include Boolean. Using `include = TRUE` to include the group smaller
-#' than required size. (Default: FALSE)
-#' @param replace Boolean. Using `replace = TRUE` if the group is smaller than
-#' required size and some cells will be repeatedly used. (Default: FALSE)
-#' @param lower.cutoff Numeric. The minimum size of groups to keep.
-#' (Default: 3)
-#' @return A numeric list of which cells will be kept for downstream
-#' computation.
+#' @param metadata A data frame containing at least two columns: one for group labels
+#' and one for batch information. Each row corresponds to a single cell. Required.
+#' @param n.size Numeric value specifying the number of cells to use in each group.
+#' Default is \code{35}.
+#' @param seed Numeric value to set the random seed for sampling. Default is \code{12345}.
+#' @param include Logical value indicating whether to include groups that have fewer cells than \code{n.size}.
+#' Default is \code{FALSE}.
+#' @param replace Logical value specifying whether to sample with replacement if a group
+#' is smaller than \code{n.size}. Default is \code{FALSE}.
+#' @param lower.cutoff Numeric value indicating the minimum group size required for inclusion.
+#' Default is \code{3}.
+#'
+#' @return A list of numeric indices (or cell names) for cells to be kept for downstream computation.
 #'
 #' @export
 #'
+#' @examples
+#' \dontrun{
+#'   # 'meta' is a data frame with columns 'label' and 'batch'
+#'   keep_cells <- downsamplingCells(meta, n.size = 35, seed = 12345)
+#' }
 downsampling <- function(metadata, n.size = 35, seed = 12345, include = FALSE,
                          replace = FALSE, lower.cutoff = 3) {
   if(!"label" %in% colnames(metadata)) {
@@ -75,15 +80,16 @@ getSharedGroups <- function(seu, dist, batch.var="Batch"){
   return(list(shared_g, idx1_shared, idx2_shared))
 }
 
-
-#' @title Measure similarity between two vectors
-#' @description Measure similarity between two vectors
-#' @param x1 x1
-#' @param x2 x2
-#' @param method method
-#' @return similarity matrix
 #' @importFrom stats cor
 measureSimilarity <- function(x1, x2, method = "pearson"){
+  # Measure similarity between two vectors
+  # 
+  # Measure similarity between two vectors
+  # 
+  # param x1 x1
+  # param x2 x2
+  # param method method
+  # return similarity matrix
   if (!is.null(x1) & !is.null(x2)) {
     if(length(x1) != length(x2)) {
       warning("x1 or x2 don't have the same length for similarity measures")
@@ -101,19 +107,29 @@ measureSimilarity <- function(x1, x2, method = "pearson"){
   }
 }
 
-#' cosine similarity in R
-#' @param x a matrix
-#' @return a similarity matrix among all rows of the input matrix
 cosineSimilarityR <- function(x) {
+  # Calculate Cosine Similarity in R
+  # 
+  # This function computes the cosine similarity between all rows of a numeric matrix.
+  # 
+  # Cosine similarity is defined as the dot product of two vectors divided by the product of
+  # their Euclidean norms.
+  # 
+  # param x A numeric matrix. Each row represents an observation for which the cosine similarity is calculated.
+  # 
+  # return A numeric similarity matrix. The entry in the \emph{i}-th row and \emph{j}-th
+  # column corresponds to the cosine similarity between the \emph{i}-th and \emph{j}-th rows of \code{x}.
+  # 
+  # details The cosine similarity ranges from -1 to 1, where 1 indicates identical orientation,
+  # 0 indicates orthogonality, and -1 indicates opposite orientation.
   y <- t(x) %*% x
   res <- y / (sqrt(diag(y)) %*% t(sqrt(diag(y))))
   return(res)
 }
 
-
 #' @references Ritchie ME, Phipson B, Wu D, Hu Y, Law CW, Shi W, Smyth GK
-#' (2015). “limma powers differential expression analyses for RNA-sequencing
-#' and microarray studies.” Nucleic Acids Research, 43(7), e47.
+#' (2015). limma powers differential expression analyses for RNA-sequencing
+#' and microarray studies. Nucleic Acids Research, 43(7), e47.
 #' doi: 10.1093/nar/gkv007.
 .zeroDominantMatrixMult <- function(A,B)
 {
@@ -170,8 +186,9 @@ cosineSimilarityR <- function(x) {
   }
 }
 
-## check the version of seurat object; chatgpt code; verified 31 jan 2025
+
 .checkSeuratObjectVersion <- function(obj) {
+  ## check the version of seurat object; chatgpt code; verified 31 jan 2025
   # First confirm it's a Seurat object
   if (!inherits(obj, "Seurat")) {
     stop("Not a valid Seurat object.")
@@ -193,8 +210,8 @@ cosineSimilarityR <- function(x) {
   }
 }
 
-## get the seurat count matrix; gpt assisted function
 .getCountsMatrix <- function(seu, assay = "RNA") {
+  ## get the seurat count matrix; gpt assisted function
   obj_version <- .checkSeuratObjectVersion(seu)
   
   # If version is NOT in c("v1","v2-or-earlier","v3","v4"),

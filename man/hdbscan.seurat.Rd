@@ -2,7 +2,7 @@
 % Please edit documentation in R/evaluation.R
 \name{hdbscan.seurat}
 \alias{hdbscan.seurat}
-\title{Initial clustering for evaluating integration}
+\title{Initial Clustering for Evaluating Integration}
 \usage{
 hdbscan.seurat(
   seu,
@@ -13,30 +13,27 @@ hdbscan.seurat(
 )
 }
 \arguments{
-\item{seu}{a Seurat object containing integrated or batch corrected
-PCA.}
+\item{seu}{A Seurat object containing integrated or batch-corrected data (e.g. PCA results).}
 
-\item{batch.var}{Character. Metadata colname containing batch information.
-(Default: Batch)}
+\item{batch.var}{Character string specifying the metadata column that contains batch information. 
+Default is "Batch".}
 
-\item{reduction}{Character. Name of the dimension reduction after
-integration or batch correction. (Default: PCA)}
+\item{reduction}{Character string specifying the name of the dimension reduction to use (e.g. "PCA"). 
+Default is "PCA".}
 
-\item{dims}{Numeric vector. Dimensions used for initial clustering.
-(Default: 1:15)}
+\item{dims}{Numeric vector indicating the dimensions to be used for initial clustering. Default is 1:15.}
 
-\item{minPts}{Interger. Minimum size of clusters. Will be passed
-to the `hdbscan` function. (Default: 25)}
+\item{minPts}{Integer specifying the minimum number of points required to form a cluster. 
+This value is passed to the \code{hdbscan} function. Default is 25.}
 }
 \value{
-A Seurat object having two additional columns in its
-meta.data: dbscan_cluster and initial_cluster.
+A Seurat object with two additional columns in its \code{meta.data}: 
+\code{dbscan_cluster} and \code{initial_cluster}.
 }
 \description{
-This function applies HDBSCAN, a density-based
-clustering method, on the corrected dimension reduction.
+This function applies HDBSCAN, a density-based clustering algorithm, to the corrected dimension 
+reduction of a Seurat object.
 }
 \seealso{
-Usage of this function should be followed by
-\code{\link{getIDEr}} and \code{\link{estimateProb}}.
+\code{\link{getIDEr}}, \code{\link{estimateProb}}
 }

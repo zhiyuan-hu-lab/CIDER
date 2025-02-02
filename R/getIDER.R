@@ -1,41 +1,33 @@
-#' @title Compute IDER-based similarity
-#' @description Calculate the similarity matrix based on the metrics of
-#' Inter-group Differential ExpRession (IDER) with the selected batch effects
-#' regressed out.
+#' Compute IDER-Based Similarity
 #'
-#' @param seu Seurat S4 object with the column of `initial_cluster` in
-#' its meta.data. Required.
-#' @param group.by.var initial clusters (batch-specific groups) variable.
-#' Needs to be one of the `colnames(seu@meta.data)`. Default: "initial_cluster".
-#' @param batch.by.var Batch variable. Needs to be one of the
-#' `colnames(seu@meta.data)`. Default: "Batch".
-#' @param verbose Boolean. Print the message and progress bar. (Default: TRUE)
-#' @param use.parallel Boolean. Use parallel computation, which requires
-#' doParallel; no progress bar will be printed out. Run time will be 1/n.cores
-#'  compared to the situation when no parallelisation is used. (Default: FALSE)
-#' @param n.cores Numeric. Number of cores used for parallel computing
-#' (default: 1).
-#' @param downsampling.size Numeric. The number of cells representing each
-#' group. (Default: 40)
-#' @param downsampling.include Boolean. Using `include = TRUE` to include
-#' the group smaller than required size. (Default: FALSE)
-#' @param downsampling.replace Boolean. Using `replace = TRUE` if the group
-#' is smaller than required size and some cells will be repeatedly used.
-#' (Default: FALSE)
+#' Calculate the similarity matrix based on Inter-group Differential Expression 
+#' (IDER) metrics with the selected batch effects regressed out.
 #'
-#' @return A list of four objects: a similarity matrix, a numeric vector
-#' recording cells used and the data frame of combinations included.
+#' @param seu A Seurat S4 object that includes an \code{initial_cluster} column in its \code{meta.data}. Required.
+#' @param group.by.var Character string specifying the column in \code{seu@meta.data} 
+#' that defines initial clusters (batch-specific groups). Default is "initial_cluster".
+#' @param batch.by.var Character string specifying the metadata column that indicates batch information. Default is "Batch".
+#' @param verbose Logical. If \code{TRUE}, progress messages and a progress bar are displayed. Default is \code{TRUE}.
+#' @param use.parallel Logical. If \code{TRUE}, parallel computation is used
+#'  (requires \code{doParallel}); in this case, no progress bar will be shown. Default is \code{FALSE}.
+#' @param n.cores Numeric. The number of cores to use for parallel computing. Default is 1.
+#' @param downsampling.size Numeric. The number of cells representing each group. Default is 40.
+#' @param downsampling.include Logical. Whether to include groups with fewer 
+#' cells than \code{downsampling.size}. Default is \code{FALSE}.
+#' @param downsampling.replace Logical. Whether to sample with replacement if a 
+#' group is smaller than \code{downsampling.size}. Default is \code{FALSE}.
 #'
-#' @seealso \code{\link{plotNetwork}} \code{\link{finalClustering}}
+#' @return A list of objects: a similarity matrix, a numeric vector recording 
+#' the cells used, and a data frame of the group combinations included.
+#'
+#' @seealso \code{\link{plotNetwork}}, \code{\link{finalClustering}}
 #'
 #' @export
-#' @import limma edgeR foreach utils doParallel
-#' @importFrom parallel detectCores
-#' @importFrom parallel stopCluster
-#' @importFrom stats model.matrix cor
-#' @importFrom parallel makeCluster
-#' @importFrom edgeR cpm
 #'
+#' @import limma edgeR foreach utils doParallel
+#' @importFrom parallel detectCores stopCluster makeCluster
+#' @importFrom stats model.matrix cor
+#' @importFrom edgeR cpm
 getIDEr <- function(seu,
                     group.by.var = "initial_cluster",
                     batch.by.var = "Batch",
@@ -219,13 +211,16 @@ getIDEr <- function(seu,
   return(list(dist_coef + t(dist_coef), select, combinations))
 }
 
-
-#' @title Calculate IDER-based similarity between two groups
+#' Calculate IDER-Based Similarity Between Two Groups
 #'
-#' @param logCPM logCPM
-#' @param design design
-#' @param contrast_m contrast matrix
-#' @return Numeric. The IDER-based similarity between two groups.
+#' This function calculates the IDER-based similarity between two groups using a linear model.
+#'
+#' @param logCPM A numeric matrix of log-transformed counts per million.
+#' @param design A design matrix for the differential expression analysis.
+#' @param contrast_m A contrast matrix specifying the comparison between the two groups.
+#'
+#' @return A numeric value representing the IDER-based similarity between the two groups.
+#'
 #' @importFrom stats cor .lm.fit
 getGroupFit <- function(logCPM, design, contrast_m){
   fit <- .lm.fit(design, t(logCPM))

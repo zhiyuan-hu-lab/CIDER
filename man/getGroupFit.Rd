@@ -2,20 +2,20 @@
 % Please edit documentation in R/getIDER.R
 \name{getGroupFit}
 \alias{getGroupFit}
-\title{Calculate IDER-based similarity between two groups}
+\title{Calculate IDER-Based Similarity Between Two Groups}
 \usage{
 getGroupFit(logCPM, design, contrast_m)
 }
 \arguments{
-\item{logCPM}{logCPM}
+\item{logCPM}{A numeric matrix of log-transformed counts per million.}
 
-\item{design}{design}
+\item{design}{A design matrix for the differential expression analysis.}
 
-\item{contrast_m}{contrast matrix}
+\item{contrast_m}{A contrast matrix specifying the comparison between the two groups.}
 }
 \value{
-Numeric. The IDER-based similarity between two groups.
+A numeric value representing the IDER-based similarity between the two groups.
 }
 \description{
-Calculate IDER-based similarity between two groups
+This function calculates the IDER-based similarity between two groups using a linear model.
 }

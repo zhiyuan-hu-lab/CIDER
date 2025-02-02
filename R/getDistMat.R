@@ -1,27 +1,29 @@
-#' @title Calculate the Similarity Matrix
-#' @description Compute the IDER-based similarity matrix for a list of Seurat
-#' objects. This function does not regress out batch effects and is designed to
-#' be used at the initial clustering step.
-#' @author Zhiyuan Hu
+#' Calculate the Similarity Matrix
+#'
+#' Compute the IDER-based similarity matrix for a list of Seurat objects. This 
+#' function does not regress out batch effects and is designed for use during the initial clustering step.
 #'
 #' @param seu_list A list containing Seurat objects. Required.
-#' @param verbose Print the message and progress bar (default: TRUE)
-#' @param tmp.initial.clusters One of the colnames from `Seurat@meta.data`. Used
-#' as the group. Default: "seurat_clusters"
-#' @param method Methods for DE analysis. Options: "voom" or "trend" (default)
-#' @param batch.var Character. Metadata colname containing batch information.
-#'  (Default: Batch)
-#' @param additional.variate additional variate to include into the linear
-#' model to regress out
-#' @param downsampling.size Number of cells used per group. Default: 35
-#' @param downsampling.include Whether to include the group of size smaller than
-#' `downsampling.size`. Default: TRUE
-#' @param downsampling.replace Whether to use `replace` in sampling for group
-#' of size smaller than `downsampling.size` if they are kept. Default: TRUE
+#' @param verbose Logical. If \code{TRUE}, progress messages and a progress bar are displayed. Default is \code{TRUE}.
+#' @param tmp.initial.clusters Character string specifying one of the column names from \code{Seurat@meta.data} 
+#' that denotes groups, e.g., initial clusters. 
+#' Default is "seurat_clusters".
+#' @param method Character string specifying the method for differential expression analysis.
+#'  Options are "voom" or "trend" (default is "trend").
+#' @param batch.var Character string specifying the metadata column containing batch information. Default is "Batch".
+#' @param additional.variate Character vector of additional variates to include in the linear model for regression.
+#' @param downsampling.size Numeric value indicating the number of cells to use per group. Default is 35.
+#' @param downsampling.include Logical. Whether to include groups with fewer cells than 
+#' \code{downsampling.size}. Default is \code{TRUE}.
+#' @param downsampling.replace Logical. Whether to sample with replacement for groups 
+#' smaller than \code{downsampling.size}. Default is \code{TRUE}.
 #'
-#' @return A list of similarity matrices
+#' @return A list of similarity matrices.
+#'
 #' @seealso \code{\link{calculateDistMatOneModel}}
+#'
 #' @export
+#'
 #' @import Seurat utils limma
 #' @importFrom edgeR cpm
 getDistMat <- function(seu_list,
@@ -87,22 +89,27 @@ getDistMat <- function(seu_list,
   return(dist_coef)
 }
 
-
-#' @title Calculate distance matrix with in one model
-#' @description This function is called by `getDistMat`.
-#' @author Zhiyuan Hu
+#' Calculate Distance Matrix Using a Single Model
 #'
-#' @param matrix The count matrix. Rows are genes/features and columns are
-#' samples/cells.
-#' @param metadata Data frame. Its rows should correspond to
-#' columns of the `matrix` input.
-#' @param verbose Print the message and progress bar (default: TRUE)
-#' @param method Methods for DE analysis. Options: "voom" or "trend" (default)
-#' @param additional.variate additional variate to include into the linear
-#' model to regress out
-#' @return A similarity matrix
-#' @seealso This function is called by \code{\link{getDistMat}}
+#' This function computes a similarity matrix by utilising 
+#' a single linear model for differential expression analysis.
+#'
+#' @param matrix A count matrix with rows representing genes or features and columns representing samples or cells.
+#' @param metadata A data frame containing metadata corresponding to the samples or cells. 
+#' Each row should match a column in \code{matrix}.
+#' @param verbose Logical. If \code{TRUE}, the function displays progress messages 
+#' and a progress bar. The default is \code{TRUE}.
+#' @param method A character string specifying the method for differential 
+#' expression analysis. Options are "voom" or "trend", with "trend" as the default.
+#' @param additional.variate A character vector of additional variates to 
+#' include in the linear model for regression.
+#'
+#' @return A similarity matrix.
+#'
+#' @seealso \code{\link{getDistMat}}
+#'
 #' @export
+#'
 #' @import limma edgeR
 #' @importFrom stats model.matrix cor coef
 calculateDistMatOneModel <- function(matrix, metadata,
