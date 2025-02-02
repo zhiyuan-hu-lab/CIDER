@@ -167,7 +167,7 @@ ggplot(res, aes(fill=Var2, y=Freq, x=Var1)) +
     geom_bar(position="stack", stat="identity") + xlab("CIDER_cluster") + ylab("Proportions")
 ```
 
-# Technical
+# Reproducibility
 
 ```{r sessionInfo}
 sessionInfo()

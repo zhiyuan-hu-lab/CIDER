@@ -29,6 +29,8 @@ plotDistMat <- function(dist.list, use = "coef") {
 #'
 #' @param seu An Seurat object.
 #' @param ider Output of function `getIDEr`.
+#' @param batch.var Character. Metadata colname containing batch information.
+#'  (Default: Batch)
 #' @return A heatmap shows the similarity between shared groups in two batches
 #'
 #' @seealso \code{\link{getIDEr}}
@@ -38,8 +40,8 @@ plotDistMat <- function(dist.list, use = "coef") {
 #' \dontrun{
 #'   plotHeatmap(seu, ider)
 #' }
-plotHeatmap <- function(seu, ider) {
-  idx <- getSharedGroups(seu, ider[[1]])
+plotHeatmap <- function(seu, ider, batch.var = "Batch") {
+  idx <- getSharedGroups(seu, ider[[1]], batch.var)
   shared_g <- idx[[1]] # shared groups
   if(length(shared_g) == 1){
     stop("No shared groups.")

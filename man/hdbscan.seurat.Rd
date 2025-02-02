@@ -4,11 +4,20 @@
 \alias{hdbscan.seurat}
 \title{Initial clustering for evaluating integration}
 \usage{
-hdbscan.seurat(seu, reduction = "pca", dims = seq_len(15), minPts = 25)
+hdbscan.seurat(
+  seu,
+  batch.var = "Batch",
+  reduction = "pca",
+  dims = seq_len(15),
+  minPts = 25
+)
 }
 \arguments{
 \item{seu}{a Seurat object containing integrated or batch corrected
 PCA.}
+
+\item{batch.var}{Character. Metadata colname containing batch information.
+(Default: Batch)}
 
 \item{reduction}{Character. Name of the dimension reduction after
 integration or batch correction. (Default: PCA)}

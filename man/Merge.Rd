@@ -20,10 +20,10 @@ Gather initial cluster names
 }
 \section{Functions}{
 \itemize{
-\item \code{gatherInitialClusters}: initial clustering results from a Seurat object list to one
+\item \code{gatherInitialClusters()}: initial clustering results from a Seurat object list to one
 Seurat object. Follows the function `mergeInitialClusters`.
-}}
 
+}}
 \seealso{
 \code{\link{mergeInitialClusters}}
 }

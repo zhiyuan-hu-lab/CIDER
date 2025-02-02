@@ -12,7 +12,8 @@ mergeInitialClusters(
   hc.method = "average",
   cutree.by = "h",
   cutree.h = 0.6,
-  cutree.k = 3
+  cutree.k = 3,
+  batch.var = "Batch"
 )
 }
 \arguments{
@@ -34,6 +35,9 @@ clusters ("k")}
 \item{cutree.h}{Height used to cut the tree. Default: 0.6.}
 
 \item{cutree.k}{Number of clusters used to cut the tree. Default: 3.}
+
+\item{batch.var}{Character. Metadata colname containing batch information.
+(Default: Batch)}
 }
 \value{
 a list of Seurat objects containing the updated initial clustering

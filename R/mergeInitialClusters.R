@@ -11,7 +11,8 @@
 #' clusters ("k")
 #' @param cutree.h Height used to cut the tree. Default: 0.6.
 #' @param cutree.k Number of clusters used to cut the tree. Default: 3.
-#'
+#' @param batch.var Character. Metadata colname containing batch information.
+#'  (Default: Batch)
 #' @return a list of Seurat objects containing the updated initial clustering
 #' information in `seu_list[[seu_itor]]$inicluster`. The original initial
 #' cluster information is stored in `seu_list[[seu_itor]]$inicluster_tmp`.
@@ -26,7 +27,7 @@
 mergeInitialClusters <- function(seu_list, dist_list, use = "coef",
                                  method = "hc",
                                  hc.method = "average", cutree.by = "h",
-                                 cutree.h = 0.6, cutree.k = 3) {
+                                 cutree.h = 0.6, cutree.k = 3, batch.var = "Batch") {
   if (use == "coef") {
     dist_coef <- dist_list[[1]]
   } else if (use == "t") {
@@ -47,10 +48,10 @@ mergeInitialClusters <- function(seu_list, dist_list, use = "coef",
 
     df_hres <- data.frame(hres)
     df_hres$hres <- paste0(df_hres$hres, "_",
-                           unique(seu_list[[seu_itor]]$Batch))
+                           unique(seu_list[[seu_itor]]@meta.data[[batch.var]]))
     seu_list[[seu_itor]]$inicluster_tmp <-
       paste0(seu_list[[seu_itor]]$seurat_clusters, "_",
-             seu_list[[seu_itor]]$Batch)
+             seu_list[[seu_itor]]@meta.data[[batch.var]])
     seu_list[[seu_itor]]$inicluster <-
       df_hres$hres[match(seu_list[[seu_itor]]$inicluster_tmp,
                          rownames(df_hres))]
@@ -74,7 +75,7 @@ gatherInitialClusters <- function(seu_list, seu) {
     return(x$inicluster_tmp)
   }))
   names(tmp) <- unlist(vapply(seu_list, function(x) {
-    return(colnames(x@assays$RNA@counts))
+    return(colnames(.getCountsMatrix(x)))
   }))
   seu$initial_cluster_tmp <- tmp[match(colnames(seu), names(tmp))]
 
@@ -82,7 +83,7 @@ gatherInitialClusters <- function(seu_list, seu) {
     return(x$inicluster)
   }))
   names(tmp) <- unlist(vapply(seu_list, function(x) {
-    return(colnames(x@assays$RNA@counts))
+    return(colnames(.getCountsMatrix(x)))
   }))
   seu$initial_cluster <- tmp[match(colnames(seu), names(tmp))]
 

@@ -5,12 +5,22 @@
 \title{Estimate the empirical probability of whether two set of cells
 from distinct batches belong to the same population}
 \usage{
-estimateProb(seu, ider, n_size = 40, n.perm = 5, verbose = FALSE)
+estimateProb(
+  seu,
+  ider,
+  batch.var = "Batch",
+  n_size = 40,
+  n.perm = 5,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{seu}{A Seurat object}
 
 \item{ider}{The output list of function `getIDEr`.}
+
+\item{batch.var}{Character. Metadata colname containing batch information.
+(Default: Batch)}
 
 \item{n_size}{Number of cells per group used to compute the similarity. Default: 40}
 

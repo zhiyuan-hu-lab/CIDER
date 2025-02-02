@@ -3,7 +3,7 @@
 #' @description Merge initial clusters into final clusters based on the
 #' matrix of IDEr.
 #'
-#' @param seu Seurat S4 object after the step of `getIDEr`. Required.
+#' @param seu Seurat object after the step of `getIDEr`. Required.
 #' @param dist A list. Output of `getIDEr`. Required.
 #' @param cutree.by Character. Cut the tree by which parameter, height ("h") or
 #' number of clusters ("k"). (Default: h)
@@ -14,7 +14,7 @@
 #' @param hc.method Character. Used to choose the hierarchical
 #' clustering method.
 #'
-#' @return Seurat S4 object with final clustering results in `CIDER_clusters`
+#' @return Seurat object with final clustering results in `CIDER_clusters`
 #' of meta.data.
 #'
 #' @seealso \code{\link{getIDEr}}.

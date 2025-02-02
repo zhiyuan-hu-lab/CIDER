@@ -76,7 +76,7 @@ getIDEr <- function(seu,
     replace = downsampling.replace
   )
 
-  matrix <- as.matrix(seu@assays$RNA@counts[, select])
+  matrix <- as.matrix(.getCountsMatrix(seu)[, select])
   # matrix for dist calculation
   colnames(matrix) <- paste0(colnames(matrix), seq_len(ncol(matrix)))
   # avoid duplication

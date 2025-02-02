@@ -53,8 +53,8 @@ scatterPlot <- function(seu, reduction, colour.by, colvec = NULL,
   }
 
   if(reduction %in% Reductions(seu)){
-    df_plot <- data.frame(x = Reductions(seu, reduction)@cell.embeddings[,1],
-                          y = Reductions(seu, reduction)@cell.embeddings[,2],
+    df_plot <- data.frame(x = Embeddings(seu, reduction)[,1],
+                          y = Embeddings(seu, reduction)[,2],
                           stringsAsFactors = FALSE)
   } else {
     stop("Provided reduction name does not exist in the seurat object.

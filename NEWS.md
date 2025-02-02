@@ -1,3 +1,8 @@
+# CIDER 0.99.2
+
+- Enhanced compatibility with Seurat v5
+- Updated pkgdown site to use Bootstrap 5
+
 # CIDER 0.99.0
 
-* Added a `NEWS.md` file to track changes to the package.
+- Introduced a `NEWS.md` file to track package changes

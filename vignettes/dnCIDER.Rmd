@@ -123,7 +123,7 @@ scatterPlot(seu_list[[2]], "tsne", "Group")
 ```{r run-getIDER-parallel}
 res <- unlist(lapply(seu_list, function(x) return(x$inicluster)))
 res_names <- unlist(lapply(seu_list, function(x) return(colnames(x))))
-seu$initial_cluster <- res[match(colnames(seu), res_names)]
+seu@meta.data$initial_cluster <- res[match(colnames(seu), res_names)]
 
 ider <- getIDEr(seu, 
                 group.by.var = "initial_cluster",
@@ -165,7 +165,7 @@ plot_list[[2]] <- scatterPlot(seu, "tsne", colour.by = "Group", title = "Ground 
 plot_grid(plotlist = plot_list, ncol = 2)
 ```
 
-# Technical
+# Reproducibility
 
 ```{r sessionInfo}
 sessionInfo()

@@ -13,7 +13,6 @@
 #' required size and some cells will be repeatedly used. (Default: FALSE)
 #' @param lower.cutoff Numeric. The minimum size of groups to keep.
 #' (Default: 3)
-#'
 #' @return A numeric list of which cells will be kept for downstream
 #' computation.
 #'
@@ -21,6 +20,12 @@
 #'
 downsampling <- function(metadata, n.size = 35, seed = 12345, include = FALSE,
                          replace = FALSE, lower.cutoff = 3) {
+  if(!"label" %in% colnames(metadata)) {
+    stop("metadata error. cannot downsample.")
+  }
+  if(!"batch" %in% colnames(metadata)) {
+    stop("metadata error. cannot downsample.")
+  }
   cluster <- unique(metadata$label)
   tech <- unique(metadata$batch)
   select <- c()
@@ -51,9 +56,9 @@ dist2similarity <- function(dist){
   diag(sml) <- 1
 }
 
-getSharedGroups <- function(seu, dist){
+getSharedGroups <- function(seu, dist, batch.var="Batch"){
 
-  batches <- unique(seu$Batch)
+  batches <- unique(seu@meta.data[[batch.var]])
   groups <- colnames(dist)
   idx1 <- colnames(dist)[grep(paste0("_", batches[1],"$"), colnames(dist))]
   # end with _Batch1
@@ -163,4 +168,65 @@ cosineSimilarityR <- function(x) {
   } else {
     return(A %*% B)
   }
+}
+
+## check the version of seurat object; chatgpt code; verified 31 jan 2025
+.checkSeuratObjectVersion <- function(obj) {
+  # First confirm it's a Seurat object
+  if (!inherits(obj, "Seurat")) {
+    stop("Not a valid Seurat object.")
+  }
+  # In very old Seurat objects (v2 or older), @version might be missing
+  if (is.null(obj@version$major)) {
+    return("v2 or older (no @version slot)")
+  }
+  # Otherwise, retrieve the major version
+  major_ver <- obj@version$major
+  if (major_ver == 5) {
+    return("v5")
+  } else if (major_ver == 4) {
+    return("v4")
+  } else if (major_ver == 3) {
+    return("v3")
+  } else {
+    return("v2 or older")
+  }
+}
+
+## get the seurat count matrix; gpt assisted function
+.getCountsMatrix <- function(seu, assay = "RNA") {
+  obj_version <- .checkSeuratObjectVersion(seu)
+  
+  # If version is NOT in c("v1","v2-or-earlier","v3","v4"),
+  # we treat it as "v5 or newer" and use `layer`.
+  # Adjust the condition as you see fit for your own logic.
+  if (!obj_version %in% c("v2 or older", "v3", "v4")) {
+    # v5 or newer
+    layer_names <- names(seu@assays[[assay]]@layers)
+    counts_layers <- grep("^counts", layer_names, value = TRUE)
+    if (length(counts_layers) == 0) {
+      stop("No layer(s) named 'counts' found in assay ", assay, ".")
+    }
+    # Retrieve each counts layer as a matrix and combine via cbind
+    if("counts" %in% counts_layers){
+      mat <- as.matrix(GetAssayData(seu, assay = "RNA", layer = "counts"))
+      return(mat)
+      
+    } else {
+      mat_list <- lapply(counts_layers, function(ln) {
+        GetAssayData(seu, assay = assay, layer = ln)
+      })
+      # cbind all counts.* layers together
+      # (They should have the same number of rows but different columns)
+      merged_mat <- do.call(cbind, mat_list)
+      merged_mat <- as.matrix(merged_mat)
+      return(merged_mat)
+    }
+
+  } else {
+    # v4 or older
+    mat <- as.matrix(GetAssayData(seu, assay = "RNA", slot = "counts"))
+    return(mat)
+  }
+  
 }

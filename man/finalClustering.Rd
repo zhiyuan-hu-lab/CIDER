@@ -14,7 +14,7 @@ finalClustering(
 )
 }
 \arguments{
-\item{seu}{Seurat S4 object after the step of `getIDEr`. Required.}
+\item{seu}{Seurat object after the step of `getIDEr`. Required.}
 
 \item{dist}{A list. Output of `getIDEr`. Required.}
 
@@ -31,7 +31,7 @@ Ignored if `cutree.by = 'k`. (Default: 0.45)}
 clustering method.}
 }
 \value{
-Seurat S4 object with final clustering results in `CIDER_clusters`
+Seurat object with final clustering results in `CIDER_clusters`
 of meta.data.
 }
 \description{

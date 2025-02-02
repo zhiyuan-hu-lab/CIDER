@@ -9,6 +9,8 @@
 #' @param tmp.initial.clusters One of the colnames from `Seurat@meta.data`. Used
 #' as the group. Default: "seurat_clusters"
 #' @param method Methods for DE analysis. Options: "voom" or "trend" (default)
+#' @param batch.var Character. Metadata colname containing batch information.
+#'  (Default: Batch)
 #' @param additional.variate additional variate to include into the linear
 #' model to regress out
 #' @param downsampling.size Number of cells used per group. Default: 35
@@ -26,6 +28,7 @@ getDistMat <- function(seu_list,
                        verbose = TRUE,
                        tmp.initial.clusters = "seurat_clusters",
                        method = "trend",
+                       batch.var = "Batch",
                        additional.variate = NULL,
                        downsampling.size = 35,
                        downsampling.include = TRUE,
@@ -37,12 +40,13 @@ getDistMat <- function(seu_list,
     k <- 1
   }
 
-  for (seu_itor in seq_len(length(seu_list))) {
+  for (seu_itor in seq_along(seu_list)) {
     df_info <- data.frame(
-      label = seu_list[[seu_itor]]$seurat_clusters,
-      batch = seu_list[[seu_itor]]$Batch
+      label = seu_list[[seu_itor]][[tmp.initial.clusters]],
+      batch = seu_list[[seu_itor]][[batch.var]]
       # donor = seu_list[[seu_itor]]$Tissue
     )
+    colnames(df_info) <- c("label","batch")
 
     idx <- downsampling(
       metadata = df_info, n.size = downsampling.size,
@@ -52,10 +56,10 @@ getDistMat <- function(seu_list,
 
     to_add <- idx[duplicated(idx)]
     idx <- idx[!duplicated(idx)]
-    matrix <- as.matrix(seu_list[[seu_itor]]@assays$RNA@counts[, idx])
+    matrix <- .getCountsMatrix(seu_list[[seu_itor]])[, idx] # version-aware layer/slot handling
 
     if (length(to_add) > 0) {
-      matrix2 <- data.frame(seu_list[[seu_itor]]@assays$RNA@counts[, to_add])
+      matrix2 <- data.frame(.getCountsMatrix(seu_list[[seu_itor]])[, to_add])
       colnames(matrix2) <- paste0(colnames(matrix2), seq_len(ncol(matrix2)))
       matrix2 <- as.matrix(matrix2)
       matrix <- cbind(matrix, matrix2)

@@ -1,8 +1,8 @@
 Package: CIDER
 Type: Package
-Title: An Interpretable Meta-clustering Framework for Single-cell 
-    RNA-Seq Data Integration and Evaluation 
-Version: 0.99.0
+Title: An Interpretable Meta-Clustering Framework for 
+    Single-Cell RNA-Seq Data Integration and Evaluation
+Version: 0.99.2
 Maintainer: Zhiyuan Hu <zhiyuan.cheryl.hu@gmail.com>
 Authors@R: c(
     person("Zhiyuan", "Hu", role = c("aut", "cre"),
@@ -12,6 +12,9 @@ Authors@R: c(
     person("Christopher", "Yau", 
       role = "aut",
       comment = c(ORCID = "0000-0001-7615-8523")
+    ),
+    person("Ahmed", "Ahmed", 
+      role = "aut"
     )
   )
 Description: A workflow of (a) meta-clustering based on 
@@ -19,8 +22,8 @@ Description: A workflow of (a) meta-clustering based on
     assess the biological correctness of integration in real datasets. See Hu Z,
     Ahmed A, Yau C (2021) <doi:10.1101/2021.03.29.437525> for
     more details.
-URL: https://github.com/zhiyhu/CIDER, https://zhiyhu.github.io/CIDER/
-BugReports: https://github.com/zhiyhu/CIDER/issues
+URL: https://github.com/zhiyuan-hu-lab/CIDER, https://zhiyuan-hu-lab.github.io/CIDER/
+BugReports: https://github.com/zhiyuan-hu-lab/CIDER/issues
 Imports: 
     limma (>= 3.42.0),
     edgeR (>= 3.28.0),
@@ -40,7 +43,8 @@ Imports:
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.2
+LazyDataCompression: xz
+RoxygenNote: 7.3.2
 Suggests: 
     knitr,
     rmarkdown,

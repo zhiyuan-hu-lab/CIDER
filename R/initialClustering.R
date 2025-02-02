@@ -2,7 +2,7 @@
 #'
 #' @description Perform batch-specific initial clustering.
 #'
-#' @param seu Seurat S4 object. Required.
+#' @param seu Seurat object. Required.
 #' @param batch.var Character. One of the column names of `seu@meta.data`. It
 #' is used to partition the Seurat object into smaller ones. Default: "Batch"
 #' @param cut.height Numeric. Height used to cut hirerchical trees. Default:
@@ -38,7 +38,7 @@ initialClustering <- function(seu, batch.var = "Batch",
   if(!batch.var %in% colnames(seu@meta.data)) {
     stop("batch.var does not exist in colnames(seu@meta.data).")
   } else{
-    batches <- seu@meta.data[,match(batch.var, colnames(seu@meta.data))]
+    batches <- seu@meta.data[,match(batch.var, colnames(seu@meta.data)), drop = TRUE]
     if(length(unique(batches)) <= 1){
       stop("Less than 2 batches provided.")
     }
@@ -72,7 +72,7 @@ initialClustering <- function(seu, batch.var = "Batch",
 
   dist_coef <- getDistMat(seu_list, downsampling.size = downsampling.size)
 
-  for(seu_itor in seq_len(length(seu_list))){
+  for(seu_itor in seq_along(seu_list)){
     tmp <- dist_coef[[seu_itor]] + t(dist_coef[[seu_itor]])
     diag(tmp) <- 1
     tmp <- 1 - tmp
@@ -80,17 +80,17 @@ initialClustering <- function(seu, batch.var = "Batch",
     hres <- cutree(hc, h = cut.height)
     df_hres <- data.frame(hres)
     df_hres$hres <- paste0(df_hres$hres, "_",
-                           unique(seu_list[[seu_itor]]$Batch))
+                           unique(seu_list[[seu_itor]]@meta.data[[batch.var]]))
     seu_list[[seu_itor]]$inicluster_tmp <-
       paste0(seu_list[[seu_itor]]$seurat_clusters,
-             "_", seu_list[[seu_itor]]$Batch)
+             "_", seu_list[[seu_itor]]@meta.data[[batch.var]])
     seu_list[[seu_itor]]$inicluster <-
       df_hres$hres[match(seu_list[[seu_itor]]$inicluster_tmp,rownames(df_hres))]
   }
 
   res <- unlist(lapply(seu_list, function(x) return(x$inicluster)))
   res_names <- unlist(lapply(seu_list, function(x) return(colnames(x))))
-  seu$initial_cluster <- res[match(colnames(seu), res_names)]
+  seu@meta.data$initial_cluster <- res[match(colnames(seu), res_names)]
 
   return(seu)
 }

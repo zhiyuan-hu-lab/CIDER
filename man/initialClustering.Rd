@@ -17,7 +17,7 @@ initialClustering(
 )
 }
 \arguments{
-\item{seu}{Seurat S4 object. Required.}
+\item{seu}{Seurat object. Required.}
 
 \item{batch.var}{Character. One of the column names of `seu@meta.data`. It
 is used to partition the Seurat object into smaller ones. Default: "Batch"}

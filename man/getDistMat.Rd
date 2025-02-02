@@ -9,6 +9,7 @@ getDistMat(
   verbose = TRUE,
   tmp.initial.clusters = "seurat_clusters",
   method = "trend",
+  batch.var = "Batch",
   additional.variate = NULL,
   downsampling.size = 35,
   downsampling.include = TRUE,
@@ -24,6 +25,9 @@ getDistMat(
 as the group. Default: "seurat_clusters"}
 
 \item{method}{Methods for DE analysis. Options: "voom" or "trend" (default)}
+
+\item{batch.var}{Character. Metadata colname containing batch information.
+(Default: Batch)}
 
 \item{additional.variate}{additional variate to include into the linear
 model to regress out}

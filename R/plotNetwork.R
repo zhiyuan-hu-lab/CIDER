@@ -6,6 +6,8 @@
 #' @param seu Seurat S4 object after the step of `getIDER`, containing 
 #' `initial_cluster` and `Batch` in its meta.data. Required.
 #' @param ider A list. Output of `getIDER`. Required.
+#' @param batch.var Character. Metadata colname containing batch information.
+#'  (Default: Batch)
 #' @param colour.by Character. It should be one of the colnames of Seurat 
 #'  object meta.data.It is used to colour the vertex of the network graph. 
 #'  (Default: NULL)
@@ -20,7 +22,10 @@
 #'
 #' @seealso \code{\link{getIDEr}} \code{\link[igraph]{graph_from_data_frame}}
 #'
-#' @import Seurat igraph
+#' @importFrom igraph graph_from_data_frame
+#' @importFrom igraph E
+#' @importFrom igraph V
+#' @import Seurat 
 #' @importFrom graphics plot legend
 #'
 #' @export
@@ -28,7 +33,7 @@
 #' \dontrun{
 #' plotNetwork(seu, ider, weight.factor = 5)
 #' }
-plotNetwork <- function(seu, ider, 
+plotNetwork <- function(seu, ider, batch.var = "Batch", 
                         colour.by = NULL, weight.factor = 6.5, 
                         col.vector = NULL, vertex.size = 1) {
   select <- ider[[2]]
@@ -44,9 +49,15 @@ plotNetwork <- function(seu, ider,
     seu$Group <- 1
   }
 
+  if(!batch.var %in% colnames(seu@meta.data)){
+    stop("batch.var does not exist in metadata.")
+  }
+  if(!"initial_cluster" %in% colnames(seu@meta.data)){
+    stop("initial clustering results do not exist in metadata. Please run initialClustering.")
+  }
   df <- data.frame(
     g = seu$initial_cluster[select],
-    b = seu$Batch[select], ## batch
+    b = seu@meta.data[[batch.var]][select], ## batch
     stringsAsFactors = FALSE
   ) ## label
 
@@ -57,7 +68,7 @@ plotNetwork <- function(seu, ider,
 
   df_plot <- data.frame(
     g = seu$Group[select], # colour.by
-    b = seu$Batch[select], # batch
+    b = seu@meta.data[[batch.var]][select], # batch
     c = seu$initial_cluster[select], # label; initial cluster
     stringsAsFactors = FALSE
   )
@@ -80,8 +91,8 @@ plotNetwork <- function(seu, ider,
   edges$weight[edges$weight < 0] <- 0
   edges <- edges[edges$weight > 0, ]
   net <- igraph::graph_from_data_frame(edges, directed = FALSE)
-  E(net)$width <- 2^(E(net)$weight * weight.factor)
-  vg_names <- attr(V(net), "names")
+  igraph::E(net)$width <- 2^(igraph::E(net)$weight * weight.factor)
+  vg_names <- attr(igraph::V(net), "names")
 
   if (is.null(col.vector)) {
     col.vector <- c(
@@ -113,15 +124,15 @@ plotNetwork <- function(seu, ider,
       stringsAsFactors = FALSE
     )
     df_plot$col <- df_plot_cols$col[match(df_plot$g, df_plot_cols$group)]
-    V(net)$color <- df_plot$col[match(vg_names, df_plot$c)]
+    igraph::V(net)$color <- df_plot$col[match(vg_names, df_plot$c)]
   } else if (length(unique(df_plot$g)) > length(col.vector)) {
     warning("The number of provided colours is less than needed. 
             So no colour is used.")
   }
 
-  V(net)$frame.color <- "#777777"
-  V(net)$size <- 20 * vertex.size
-  V(net)$label.family <- "Helvetica"
+  igraph::V(net)$frame.color <- "#777777"
+  igraph::V(net)$size <- 20 * vertex.size
+  igraph::V(net)$label.family <- "Helvetica"
 
   if (length(unique(df_plot$g)) > 1) {
     plot(net); legend(

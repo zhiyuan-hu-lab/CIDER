@@ -7,6 +7,7 @@
 plotNetwork(
   seu,
   ider,
+  batch.var = "Batch",
   colour.by = NULL,
   weight.factor = 6.5,
   col.vector = NULL,
@@ -18,6 +19,9 @@ plotNetwork(
 `initial_cluster` and `Batch` in its meta.data. Required.}
 
 \item{ider}{A list. Output of `getIDER`. Required.}
+
+\item{batch.var}{Character. Metadata colname containing batch information.
+(Default: Batch)}
 
 \item{colour.by}{Character. It should be one of the colnames of Seurat 
 object meta.data.It is used to colour the vertex of the network graph. 

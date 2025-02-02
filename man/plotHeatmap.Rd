@@ -4,12 +4,15 @@
 \alias{plotHeatmap}
 \title{Plot Heatmap for the IDER-based similarity matrix}
 \usage{
-plotHeatmap(seu, ider)
+plotHeatmap(seu, ider, batch.var = "Batch")
 }
 \arguments{
 \item{seu}{An Seurat object.}
 
 \item{ider}{Output of function `getIDEr`.}
+
+\item{batch.var}{Character. Metadata colname containing batch information.
+(Default: Batch)}
 }
 \value{
 A heatmap shows the similarity between shared groups in two batches
