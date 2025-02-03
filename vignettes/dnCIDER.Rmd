@@ -17,10 +17,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-
 # Introduction
 
-This vignette performs dnCIDER on a cross-species pancreas dataset. It is aimed to show the underneath structure of dnCIDER compared to the other high level [vignette](docs/articles/dnCIDER_highlevel.html).
+This vignette performs dnCIDER on a cross-species pancreas dataset. It is aimed to show the underneath structure of dnCIDER compared to the other high-level vignette (see *Getting Start with De Novo CIDER (dnCIDER): Cross-Species Pancreas Integration*).
 
 # Set up
 
@@ -35,11 +34,11 @@ library(cowplot)
 
 # Load example data
 
-The example data can be downloaded from https://figshare.com/s/d5474749ca8c711cc205. 
+The example data can be downloaded from <https://figshare.com/s/d5474749ca8c711cc205>.
 
 Pancreatic cell data$^1$ contain cells from human (8241 cells) and mouse (1886 cells).
 
-```{r} 
+```{r}
 load("../data/pancreas_counts.RData") # count matrix
 load("../data/pancreas_meta.RData") # meta data/cell information
 seu <- CreateSeuratObject(counts = pancreas_counts, meta.data = pancreas_meta)
@@ -67,7 +66,6 @@ seu_list <- mclapply(seu_list, function(x) {
 knitr::kable(table(seu_list[[2]]$Group, seu_list[[2]]$seurat_clusters))
 ```
 
-
 ```{r, fig.height=5, fig.width=12}
 seu_list <- mclapply(seu_list, RunTSNE, dims = 1:15)
 p1 <- scatterPlot(seu_list[[1]], "tsne", colour.by = "seurat_clusters")
@@ -78,7 +76,6 @@ cowplot::plot_grid(p1,p2)
 ```{r}
 dist_coef <- getDistMat(seu_list, downsampling.size = 50)
 ```
-
 
 ```{r,  fig.height=5, fig.width=12}
 par(mfrow = c(length(seu_list),1))
@@ -102,7 +99,6 @@ for(seu_itor in 1:2){
   seu_list[[seu_itor]]$inicluster <- df_hres$hres[match(seu_list[[seu_itor]]$inicluster_tmp,rownames(df_hres))]
 }
 ```
-
 
 ```{r}
 # plot(as.dendrogram(hc), horiz = T)
@@ -135,7 +131,6 @@ ider <- getIDEr(seu,
 ```{r plot-network, fig.height=9, fig.width=9}
 net <- plotNetwork(seu, ider, colour.by = "Group" , vertex.size = 0.6, weight.factor = 5)
 ```
-
 
 ```{r, fig.height=6, fig.width=6}
 hc <- hclust(as.dist(1-(ider[[1]] + t(ider[[1]])))/2)
@@ -172,7 +167,5 @@ sessionInfo()
 
 # References
 
-1. Baron, M. et al. A Single-Cell Transcriptomic Map of the Human and Mouse Pancreas Reveals Inter- and Intra-cell Population Structure. Cell Syst 3, 346–360.e4 (2016).
-2. Satija R, et al. Spatial reconstruction of single-cell gene expression data. Nature Biotechnology 33, 495-502 (2015). 
-
-
+1.  Baron, M. et al. A Single-Cell Transcriptomic Map of the Human and Mouse Pancreas Reveals Inter- and Intra-cell Population Structure. Cell Syst 3, 346–360.e4 (2016).
+2.  Satija R, et al. Spatial reconstruction of single-cell gene expression data. Nature Biotechnology 33, 495-502 (2015).

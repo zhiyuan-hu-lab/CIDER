@@ -15,9 +15,9 @@ measures** to guide clustering without requiring such strict
 assumptions.
 
 - Genome Biology (2021) publication: [CIDER
-  article]((https://genomebiology.biomedcentral.com/articles/10.1186/s13059-021-02561-2))
+  article](https://doi.org/10.1186/s13059-021-02561-2)
 - Original prototype: [Hu et al., *Cancer Cell*
-  2020](https://www.sciencedirect.com/science/article/pii/S1535610820300428)
+  2020](https://doi.org/10.1016/j.ccell.2020.01.003)
 
 ## Highlights
 
