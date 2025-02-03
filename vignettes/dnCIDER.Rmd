@@ -68,7 +68,7 @@ knitr::kable(table(seu_list[[2]]$Group, seu_list[[2]]$seurat_clusters))
 ```
 
 
-```{r}
+```{r, fig.height=5, fig.width=12}
 seu_list <- mclapply(seu_list, RunTSNE, dims = 1:15)
 p1 <- scatterPlot(seu_list[[1]], "tsne", colour.by = "seurat_clusters")
 p2 <- scatterPlot(seu_list[[2]], "tsne", colour.by = "seurat_clusters")
@@ -80,7 +80,7 @@ dist_coef <- getDistMat(seu_list, downsampling.size = 50)
 ```
 
 
-```{r}
+```{r,  fig.height=5, fig.width=12}
 par(mfrow = c(length(seu_list),1))
 for(i in which(sapply(dist_coef, function(x) return(!is.null(x))))){
   tmp <- dist_coef[[i]] + t(dist_coef[[i]])
@@ -114,7 +114,7 @@ p2 <- scatterPlot(seu_list[[2]], "tsne", "inicluster")
 plot_grid(p1,p2)
 ```
 
-```{r}
+```{r, fig.height=3, fig.width=4.5}
 scatterPlot(seu_list[[2]], "tsne", "Group")
 ```
 
@@ -134,13 +134,12 @@ ider <- getIDEr(seu,
 
 ```{r plot-network, fig.height=9, fig.width=9}
 net <- plotNetwork(seu, ider, colour.by = "Group" , vertex.size = 0.6, weight.factor = 5)
-
 ```
 
 
-```{r, fig.height=4}
+```{r, fig.height=6, fig.width=6}
 hc <- hclust(as.dist(1-(ider[[1]] + t(ider[[1]])))/2)
-plot(as.dendrogram(hc), horiz = TRUE)
+plot(as.dendrogram(hc)) #, horiz = TRUE
 ```
 
 # Perform final Clustering
@@ -158,7 +157,7 @@ seu <- RunPCA(seu, npcs = 20, verbose = FALSE)
 seu <- RunTSNE(seu, reduction = "pca", dims = 1:12)
 ```
 
-```{r tsne-plot-CIDER-results, fig.height=3, fig.width=7}
+```{r tsne-plot-CIDER-results, fig.height=4, fig.width=10}
 plot_list <- list()
 plot_list[[1]] <- scatterPlot(seu, "tsne", colour.by = "CIDER_cluster", title = "asCIDER clustering results") 
 plot_list[[2]] <- scatterPlot(seu, "tsne", colour.by = "Group", title = "Ground truth of cell populations") 

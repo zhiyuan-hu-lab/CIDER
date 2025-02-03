@@ -141,7 +141,7 @@ shown cells with dbscan_cluster of 2 and 3 have low regional similarity
 and high empirical p values, suggesting that they can be incorrectly
 integrated.
 
-```{r, fig.height=1.8, fig.width=7}
+```{r, fig.height=3, fig.width=11}
 p1 <- scatterPlot(seu.integrated, "tsne", "dbscan_cluster")
 p2 <- scatterPlot(seu.integrated, "tsne", colour.by = "similarity") + labs(fill = "Similarity")
 p3 <- scatterPlot(seu.integrated, "tsne", colour.by = "pvalue") + labs(fill = "Prob of \nrejection")
